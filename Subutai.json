@@ -22,8 +22,12 @@
         "ansible-playbook": "site.yml",
         "extra-vars": [
             {
-                "key": "rtdUser",
+                "key": "user_email",
                 "value": "${rtdUser}"
+            },
+            {
+                "key": "user_password",
+                "value": "${rtdUserPasswd}"
             }
         ],
         "groups": [
@@ -49,10 +53,16 @@
             "validation": "[a-zA-Z0-9]+"
         },
         "rtdUser": {
-            "description": "Enter the readthedocs user (leave empty for default)",
+            "description": "Enter the readthedocs admin user )",
             "type": "string",
-            "default": "readthedocs", 
+            "default": "admin", 
             "validation": "[a-zA-Z0-9]*"
+        }, 
+        "rtdUserPasswd": {
+            "description": "Enter the readthedocs user password",
+            "type": "string",
+            "default": "", 
+            "validation": "[a-zA-Z0-9]+"
         }, 
         "containerSize": {
             "description": "Container Size",
