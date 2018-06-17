@@ -54,10 +54,16 @@
           app_path: /srv/rtd
           command: migrate
 
-    - name: RTD Server Create Super User
-      django_manage:
-          app_path: /srv/rtd
-          command: "createsuperuser --noinput --username=admin --email={{ user_email }}"
+    - name: Create Django super user
+      shell:
+          echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '{{ user_email }}', '{{ user_password }}')" | python manage.py shell 
+      args:
+          chdir: /srv/rtd
+
+#    - name: RTD Server Create Super User
+#      django_manage:
+#          app_path: /srv/rtd
+#          command: "createsuperuser --noinput --username=admin --email={{ user_email }}"
 
     - name: RTD Server Up 
       shell: nohup ./manage.py runserver 0.0.0.0:8000 &
