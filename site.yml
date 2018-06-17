@@ -68,7 +68,7 @@
       django_manage:
           app_path: /srv/rtd/source
           virtualenv: /srv/rtd/rtd_env
-          command: collecstatic
+          command: collectstatic
 
     - name: Create Django super user
       shell:
