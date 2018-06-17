@@ -40,6 +40,14 @@
         - recommonmark
         - sphinx_rtd_theme
     
+    - name: Create Virtual Env Dir
+      file:
+          path: /srv/rtd
+          state: directory
+
+    - name: Create Virtual Env
+      command: virtualenv /srv/rtd creates="/srv/rtd/rtd_env"
+
     - name: Install RTD
       git: 
         repo: https://github.com/rtfd/readthedocs.org.git 
@@ -47,11 +55,13 @@
 
     - name: Install requirements from pip
       pip:
+        virtualenv: /srv/rtd/rtd_env
         requirements: /srv/rtd/requirements/pip.txt
 
     - name: RTD Server migrate
       django_manage:
           app_path: /srv/rtd
+          virtualenv: /srv/rtd/rtd_env
           command: migrate
 
     - name: Create Django super user
