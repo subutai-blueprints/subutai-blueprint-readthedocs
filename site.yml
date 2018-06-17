@@ -40,7 +40,27 @@
         - recommonmark
         - sphinx_rtd_theme
     
-    - name: Add RTD User
-      user: rtd
-      comment: "Subutai RTD User"
-      shell: /bin/bash
+    - name: Install RTD
+      git: 
+        repo: https://github.com/rtfd/readthedocs.org.git 
+        dest: /srv/rtd
+
+    - name: Install requirements from pip
+      pip:
+        requirements: /srv/rtd/requirements/pip.txt
+
+    - name: RTD Server migrate
+      django_manage:
+          app_path: /srv/rtd
+          command: migrate
+
+    - name: RTD Server Create Super User
+      django_manage:
+          app_path: /srv/rtd
+          command: "createsuperuser --noinput --username=admin --email={{ user_email }}"
+
+    - name: RTD Server Up 
+      shell: nohup ./manage.py runserver 0.0.0.0:8000 &
+      args:
+              chdir: /srv/rtd
+
