@@ -9,7 +9,15 @@
             "hostname": "${hostName}",
             "template": "debian-stretch",
             "peer-criteria": "peers",
-            "size": "${containerSize}"
+            "size": "${containerSize}",
+            "port-mapping": [
+                {
+                    "protocol": "http",
+                    "domain": "${domainName}",
+                    "internal-port": "80",
+                    "external-port": "80"
+                }
+            ]
         }
     ],
     "peer-criteria": [
@@ -64,6 +72,12 @@
             "default": "", 
             "validation": "[a-zA-Z0-9]+"
         }, 
+        "domainName": {
+            "description": "Enter the application domain name",
+            "type": "domain",
+            "default": "",
+            "validation": "[a-zA-Z0-9]+"
+        },
         "containerSize": {
             "description": "Container Size",
             "type": "enum",
