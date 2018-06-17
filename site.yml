@@ -48,6 +48,7 @@
     - name: Install requirements from pip
       pip:
         requirements: /srv/rtd/requirements/pip.txt
+        virtualenv: /srv/rtd
 
     - name: RTD Server migrate
       django_manage:
