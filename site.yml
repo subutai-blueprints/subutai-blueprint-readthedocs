@@ -67,7 +67,7 @@
     - name: RTD generate the static assets
       django_manage:
           app_path: /srv/rtd/source
-          virtualenv: /serv/rtd/rtd_env
+          virtualenv: /srv/rtd/rtd_env
           command: collecstatic
 
     - name: Create Django super user
