@@ -14,7 +14,7 @@
                 {
                     "protocol": "http",
                     "domain": "${domainName}",
-                    "internal-port": "80",
+                    "internal-port": "8000",
                     "external-port": "80"
                 }
             ]
