@@ -86,7 +86,7 @@
       django_manage:
           app_path: /srv/rtd/source
           virtualenv: /srv/rtd/rtd_env
-          command: "runfcgi method=threaded host=0.0.0.0 port=8000"
+          command: runfcgi method=threaded host=127.0.0.1 port=8000
 
 #    - name: RTD Server Up 
 #      shell: nohup python ./manage.py runserver 0.0.0.0:8000 &
