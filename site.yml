@@ -72,7 +72,7 @@
 
     - name: Create Django super user
       shell:
-          manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', '{{ user_email }}', '{{ user_password }}')"
+          ./manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', '{{ user_email }}', '{{ user_password }}')"
       args:
           chdir: /srv/rtd/source
 
