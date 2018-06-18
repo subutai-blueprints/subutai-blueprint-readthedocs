@@ -83,6 +83,6 @@
 #          command: "createsuperuser --noinput --username=admin --email={{ user_email }}"
 
     - name: RTD Server Up 
-      shell: "nohup manage.py runserver 0.0.0.0:8000 &"
+      shell: "./manage.py runserver 0.0.0.0:8000  > /dev/null 2>&1 &"
       args:
               chdir: /srv/rtd/source
