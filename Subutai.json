@@ -61,13 +61,13 @@
             "validation": "[a-zA-Z0-9]+"
         },
         "rtdUser": {
-            "description": "Enter the readthedocs admin user )",
+            "description": "Enter the readthedocs admin email )",
             "type": "string",
-            "default": "admin", 
-            "validation": "[a-zA-Z0-9]*"
+            "default": "admin@example.com", 
+            "validation": "[a-zA-Z0-9]+"
         }, 
         "rtdUserPasswd": {
-            "description": "Enter the readthedocs user password",
+            "description": "Enter the admin password",
             "type": "string",
             "default": "", 
             "validation": "[a-zA-Z0-9]+"
