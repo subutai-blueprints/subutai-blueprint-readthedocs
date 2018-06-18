@@ -58,6 +58,11 @@
         virtualenv: /srv/rtd/rtd_env
         requirements: /srv/rtd/source/requirements/pip.txt
 
+    - name: Install flup 
+      pip:
+        name: flup
+        virtualenv: /srv/rtd/rtd_env
+
     - name: RTD Server migrate
       django_manage:
           app_path: /srv/rtd/source
