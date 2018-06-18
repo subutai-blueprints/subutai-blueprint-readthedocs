@@ -31,7 +31,7 @@
         "extra-vars": [
             {
                 "key": "user_email",
-                "value": "${rtdUser}"
+                "value": "${adminEmail}"
             },
             {
                 "key": "user_password",
@@ -60,11 +60,11 @@
             "default": "rtd",
             "validation": "[a-zA-Z0-9]+"
         },
-        "rtdUser": {
+        "adminEmail": {
             "description": "Enter the readthedocs admin email )",
             "type": "string",
             "default": "admin@example.com", 
-            "validation": "[a-zA-Z0-9]+"
+            "validation": "[a-zA-Z0-9\\@\\.]+"
         }, 
         "rtdUserPasswd": {
             "description": "Enter the admin password",
