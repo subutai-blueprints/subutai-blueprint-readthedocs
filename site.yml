@@ -87,6 +87,6 @@
           virtualenv: /srv/rtd/rtd_env
 
     - name: RTD Server Up 
-      shell: . ../rtd_env/bin/activate && uwsgi --http :8000 --module readthedocs/wsgi.py &
+      shell: . ../rtd_env/bin/activate && nohup uwsgi --http :8000 --module readthedocs/wsgi.py &
       args:
           chdir: /srv/rtd/source
