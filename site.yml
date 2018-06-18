@@ -82,7 +82,13 @@
 #          virtualenv: /srv/rtd/rtd_env
 #          command: "createsuperuser --noinput --username=admin --email={{ user_email }}"
 
-    - name: RTD Server Up 
-      shell: "./manage.py runserver 0.0.0.0:8000  > /dev/null 2>&1 &"
-      args:
-              chdir: /srv/rtd/source
+    - name: RTD Server Up
+      django_manage:
+          app_path: /srv/rtd/source
+          virtualenv: /srv/rtd/rtd_env
+          command: "runserver 0.0.0.0:8000"
+
+#    - name: RTD Server Up 
+#      shell: "./manage.py runserver 0.0.0.0:8000  > /dev/null 2>&1 &"
+#      args:
+#              chdir: /srv/rtd/source
