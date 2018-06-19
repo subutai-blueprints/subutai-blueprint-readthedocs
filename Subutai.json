@@ -1,7 +1,7 @@
 {
     "name": "${environmentName}",
     "description": "Subutai Readthedocs",
-    "version": "0.0.9",
+    "version": "1.0.0",
     "author": "https://github.com/marcoarthur",
     "ssh-key": "mprado", 
     "containers": [
