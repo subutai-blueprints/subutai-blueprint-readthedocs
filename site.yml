@@ -78,6 +78,7 @@
       git: 
         repo: https://github.com/rtfd/readthedocs.org.git 
         dest: /srv/rtd/source
+        version: 4.1.4
 
     - name: Install requirements from pip
       pip:
