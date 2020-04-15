@@ -9,36 +9,62 @@
     - name: Update
       raw: apt-get -y --allow-unauthenticated update || true
 
-    - name: Ensure python is available
-      raw: test -e /usr/bin/python || apt install -y --allow-unauthenticated python-minimal
-
-    - name: Ensure python-apt is available
-      raw: test -d /usr/share/python-apt || apt install -y --allow-unauthenticated python-apt
-
     - name: Upgrade
       raw: apt-get -y --allow-unauthenticated upgrade
+      
     
 - hosts: rtd
   remote_user: root
   tasks:
 
     - name: Install extra packages
-      apt:
+      apt: 
         name: "{{ item }}"
       with_items:
+        - wget
+        - xz-utils
+        - build-essential
+        - libsqlite3-dev
+        - libreadline-dev
+        - libxml2-dev
+        - libxslt1-dev
+        - libssl-dev
+        - openssl
+        - zlib1g-dev
+        - libbz2-dev
         - git
-        - python-pip
-        - virtualenv
-        - pandoc
 
-    - name: Install Sphinx and RTD Theme
-      pip:
-        name: "{{ item }}"
+    - name: Extract python 3.6.10 into /tmp
+      unarchive:
+        src: https://www.python.org/ftp/python/3.6.10/Python-3.6.10.tar.xz
+        dest: /tmp/
+        remote_src: yes
+        
+    - name: Configure python 3.6.10
+      shell: ./configure chdir=/tmp/Python-3.6.10
+      tags: packages, python
+        
+    - name: Make
+      shell: make chdir=/tmp/Python-3.6.10
+      tags: packages, python
+        
+    - name: Install Python 3.6.10
+      shell: make install chdir=/tmp/Python-3.6.10
+      become: yes
+      become_user: root
+      tags: packages, python
+      
+    - name: Remove tmp files used for Python 3.6.10 installation
+      file: path={{ item }} state=absent
       with_items:
-        - sphinx
-        - sphinx-autobuild
-        - recommonmark
-        - sphinx_rtd_theme
+        - /tmp/Python.tar.xz
+        - /tmp/Python-3.6.10
+      tags: packages, python   
+     
+    - name: Install Virtualenv
+      pip:
+        name: virtualenv
+        executable: pip3
     
     - name: Create Virtual Env Dir
       file:
@@ -46,22 +72,24 @@
           state: directory
 
     - name: Create Virtual Env
-      command: virtualenv /srv/rtd creates="/srv/rtd/rtd_env"
+      command: virtualenv -p /usr/local/bin/python3.6 --system-site-packages /srv/rtd creates="/srv/rtd/rtd_env"
 
     - name: Install RTD
       git: 
         repo: https://github.com/rtfd/readthedocs.org.git 
         dest: /srv/rtd/source
+        version: 4.1.4
 
     - name: Install requirements from pip
       pip:
         virtualenv: /srv/rtd/rtd_env
+        virtualenv_python: python3.6
         requirements: /srv/rtd/source/requirements/pip.txt
 
-    - name: Install flup 
-      pip:
-        name: flup
-        virtualenv: /srv/rtd/rtd_env
+ #   - name: Install flup 
+ #     pip:
+ #       name: flup
+ #       virtualenv: /srv/rtd/rtd_env    
 
     - name: RTD Server migrate
       django_manage:
@@ -77,24 +105,24 @@
 
     - name: Create Django super user
       shell:
-          . ../rtd_env/bin/activate && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '{{ user_email }}', '{{ user_password }}')" | python manage.py shell
+          . ../rtd_env/bin/activate && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '{{ user_email }}', '{{ user_password }}')" | python3.6 manage.py shell
       args:
           chdir: /srv/rtd/source
 
-    - name: Install uWSGI
-      pip:
-          name: uwsgi
-          virtualenv: /srv/rtd/rtd_env
+    #- name: Install uWSGI
+    # pip:
+    #      name: uwsgi
+    #      virtualenv: /srv/rtd/rtd_env
 
-    - name: Configure Rtd ini file 
-      copy:
-          src:  uwsgi/rtd.ini
-          dest: /srv/rtd/source/readthedocs/rtd.ini
-          owner: root
-          group: root
+    #- name: Configure Rtd ini file 
+    #  copy:
+    #      src:  uwsgi/rtd.ini
+    #      dest: /srv/rtd/source/readthedocs/rtd.ini
+    #      owner: root
+    #      group: root
 
 
-    - name: RTD uWSGI Server Up 
-      shell: . ../rtd_env/bin/activate && uwsgi --ini readthedocs/rtd.ini
+    - name: RTD Server Up 
+      shell: . ../rtd_env/bin/activate && nohup python3.6 manage.py runserver 0.0.0.0:8000 &
       args:
           chdir: /srv/rtd/source
