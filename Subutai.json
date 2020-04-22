@@ -1,13 +1,13 @@
 {
     "name": "${environmentName}",
     "description": "Subutai Readthedocs",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "author": "https://github.com/marcoarthur",
     "ssh-key": "mprado", 
     "containers": [
         {
             "hostname": "${hostName}",
-            "template": "debian-stretch",
+            "template": "debian-buster",
             "peer-criteria": "peers",
             "size": "${containerSize}",
             "port-mapping": [
