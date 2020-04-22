@@ -49,7 +49,7 @@
           state: directory
 
     - name: Create Virtual Env
-      command: virtualenv -p /usr/local/bin/python3.6 --system-site-packages /srv/rtd creates="/srv/rtd/rtd_env"
+      command: virtualenv -p /usr/local/bin/python3 --system-site-packages /srv/rtd creates="/srv/rtd/rtd_env"
 
     - name: Install RTD
       git: 
@@ -60,7 +60,7 @@
     - name: Install requirements from pip
       pip:
         virtualenv: /srv/rtd/rtd_env
-        virtualenv_python: python3.6
+        virtualenv_python: python3
         requirements: /srv/rtd/source/requirements/pip.txt
 
  #   - name: Install flup 
@@ -100,6 +100,6 @@
 
 
     - name: RTD Server Up 
-      shell: . ../rtd_env/bin/activate && nohup python3.6 manage.py runserver 0.0.0.0:8000 &
+      shell: . ../rtd_env/bin/activate && nohup python3 manage.py runserver 0.0.0.0:8000 &
       args:
           chdir: /srv/rtd/source
