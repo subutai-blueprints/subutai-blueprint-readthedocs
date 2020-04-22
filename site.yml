@@ -45,7 +45,7 @@
           state: directory
 
     - name: Create Virtual Env
-      command: virtualenv -p /usr/local/bin/python3 --system-site-packages /srv/rtd creates="/srv/rtd/rtd_env"
+      command: virtualenv -p python3 --system-site-packages /srv/rtd creates="/srv/rtd/rtd_env"
 
     - name: Install RTD
       git: 
