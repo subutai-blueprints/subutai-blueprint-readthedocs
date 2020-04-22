@@ -7,7 +7,7 @@
     "containers": [
         {
             "hostname": "${hostName}",
-            "template": "debian-stretch",
+            "template": "debian-buster",
             "peer-criteria": "peers",
             "size": "${containerSize}",
             "port-mapping": [
