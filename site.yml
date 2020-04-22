@@ -38,6 +38,7 @@
         - python3-dev
         - python3-setuptools
         - virtualenv
+        - python-pip
     
     - name: Create Virtual Env Dir
       file:
@@ -54,8 +55,9 @@
         version: 4.1.4
 
     - name: Install requirements from pip
-      pip3:
+      pip:
         virtualenv: /srv/rtd/rtd_env
+        virtualenv_python: python3
         requirements: /srv/rtd/source/requirements/pip.txt
 
  #   - name: Install flup 
